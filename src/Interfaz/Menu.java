@@ -235,7 +235,7 @@ public class Menu {
     }
 
     //Le paso la partida y si abandono algun jugador y imprimo quien gano 
-    //o si es empate
+    //o si es empate PASAR A SISTEMA
     public void ganador(Partida unaP, boolean abandonoAzul, 
             boolean abandonoRojo, Tablero tablero) {
         boolean ganoRojo = false;
