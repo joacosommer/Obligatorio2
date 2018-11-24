@@ -1,9 +1,10 @@
-
 package InterfazUI;
+
 import Dominio.*;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Marce
@@ -13,45 +14,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form VentanaPrincipal
      */
-    public VentanaPrincipal() {
+    private Sistema sistema;
+
+    public VentanaPrincipal(Sistema unSistema) {
         initComponents();
-        
-        jPanel1 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenuJugador = new javax.swing.JMenu();
-        jMenuPartida = new javax.swing.JMenu();
-        jMenuSalir = new javax.swing.JMenu();
-        jMenuItemRegistroJugador = new javax.swing.JMenuItem();
-        jMenuItemRanking = new javax.swing.JMenuItem();
-        jMenuItemJugarPartida = new javax.swing.JMenuItem();
-        jMenuItemReplicarPartida = new javax.swing.JMenuItem();
-        
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sumas");
-        setPreferredSize(new java.awt.Dimension(400, 300));
-        setResizable(false);
-        getContentPane().setLayout(null);
-        
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-        
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 400, 300);
-        
-        jMenuJugador.setText("Jugador");
-        
-        
-        
-        
-        
+
+        setSistema(unSistema);
+
+        //sistema.addObserver(this);
+    }
+
+    public Sistema getSistema() {
+        return sistema;
+    }
+
+    public void setSistema(Sistema unSistema) {
+        this.sistema = unSistema;
     }
 
     /**
@@ -89,6 +67,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuJugador.setText("Jugador");
 
         jMenuItemRegistroJugador.setText("Registro Jugador");
+        jMenuItemRegistroJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRegistroJugadorActionPerformed(evt);
+            }
+        });
         jMenuJugador.add(jMenuItemRegistroJugador);
 
         jMenuItemRanking.setText("Ranking");
@@ -129,12 +112,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItemRegistroJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegistroJugadorActionPerformed
+        VentanaRegistroJugador ventana = new VentanaRegistroJugador(this.getSistema());
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jMenuItemRegistroJugadorActionPerformed
 
     /**
      * @param args the command line arguments
      */
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
@@ -147,4 +135,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSalir;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+   
+
+
 }

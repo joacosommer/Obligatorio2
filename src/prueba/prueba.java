@@ -12,7 +12,7 @@ public class prueba {
          Sistema sistema = new Sistema();
 
         // Se crea la ventana y se le pasa el modelo por el constructor
-        VentanaPrincipal ventana = new VentanaPrincipal();
+        VentanaPrincipal ventana = new VentanaPrincipal(sistema);
         
         // Opcional: se asignar look and feel
         asignarLookAndFeel();

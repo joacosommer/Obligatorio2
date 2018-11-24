@@ -4,25 +4,25 @@
  * and open the template in the editor.
  */
 package InterfazUI;
+
 import Dominio.*;
 import java.awt.event.*;
 import java.awt.*;
-import javax.swing.*;        
+import javax.swing.*;
 
 /**
  *
  * @author Joaquin
  */
 public class Tablero2 extends javax.swing.JFrame {
-    Tablero tablero = new Tablero();
+
     private JButton[][] botones;
-    
+    Tablero tablero = new Tablero();
     /**
      * Creates new form Tablero2
      */
     public Tablero2() {
         initComponents();
-        // crear botones y agregarlos al panel
         panelJuego.setLayout(new GridLayout(8, 9));
         botones = new JButton[9][10];
         for (int i = 1; i <= 8; i++) {
@@ -32,17 +32,19 @@ public class Tablero2 extends javax.swing.JFrame {
                 panelJuego.add(jButton);
                 botones[i][j] = jButton;
                 botones[i][j].setMargin(new Insets(8, 8, 8, 8));
-                if(tablero.getTablero()[i-1][j-1].getColor()=="Rojo"){
+                if (tablero.getTablero()[i - 1][j - 1].getColor() == "Rojo") {
                     botones[i][j].setBackground(Color.RED);
-                } else if (tablero.getTablero()[i-1][j-1].getColor()=="Azul"){
+                } else if (tablero.getTablero()[i - 1][j - 1].getColor() == "Azul") {
                     botones[i][j].setBackground(Color.BLUE);
+                } else {
+                    botones[i][j].setBackground(Color.GRAY);
                 }
-                if (tablero.getTablero()[i-1][j-1].getValor()!=0){
-                    jButton.setText(Integer.toString(tablero.getTablero()[i-1][j-1].getValor()));
+                if (tablero.getTablero()[i - 1][j - 1].getValor() != 0) {
+                    jButton.setText(Integer.toString(tablero.getTablero()[i - 1][j - 1].getValor()));
                 }
             }
         }
-
+        jLabel2.setText("Hola");
     }
 
     /**
@@ -55,18 +57,42 @@ public class Tablero2 extends javax.swing.JFrame {
     private void initComponents() {
 
         panelJuego = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(0, 0));
+
+        panelJuego.setBackground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout panelJuegoLayout = new javax.swing.GroupLayout(panelJuego);
         panelJuego.setLayout(panelJuegoLayout);
         panelJuegoLayout.setHorizontalGroup(
             panelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 420, Short.MAX_VALUE)
         );
         panelJuegoLayout.setVerticalGroup(
             panelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLabel2.setText("jLabel2");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addContainerGap(143, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jLabel2)
+                .addContainerGap(337, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -75,16 +101,17 @@ public class Tablero2 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 300, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 200, Short.MAX_VALUE))
+            .addComponent(panelJuego, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(629, 439));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -123,9 +150,12 @@ public class Tablero2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelJuego;
     // End of variables declaration//GEN-END:variables
-private class ListenerBoton implements ActionListener {
+
+    private class ListenerBoton implements ActionListener {
 
         private int x;
         private int y;

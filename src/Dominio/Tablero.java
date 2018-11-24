@@ -27,7 +27,7 @@ public class Tablero {
                     aux.setColor("Azul");
                     aux.setValor(j);
                 }
-                if (i == 7 && j < 9) {
+                if (i == 7 && j < 8) {
                     aux.setColor("Rojo");
                     aux.setValor(8 - j);
                 }
