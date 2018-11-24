@@ -1,5 +1,6 @@
 
 package InterfazUI;
+import Dominio.Sistema;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*; 
@@ -10,7 +11,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,4 +123,5 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     // End of variables declaration//GEN-END:variables
+
 }
