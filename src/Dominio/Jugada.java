@@ -4,6 +4,7 @@ package Dominio;
 Joaquin Sommer - 184441
 Marcelo Ferreira - 175240
 Hola como estas???
+123456
  */
 public class Jugada {
 
