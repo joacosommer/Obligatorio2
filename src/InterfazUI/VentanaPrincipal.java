@@ -9,11 +9,8 @@ import javax.swing.JOptionPane;
  *
  * @author Marce
  */
-public class VentanaPrincipal extends javax.swing.JFrame {
+public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
-    /**
-     * Creates new form VentanaPrincipal
-     */
     private Sistema sistema;
 
     public VentanaPrincipal(Sistema unSistema) {
@@ -21,7 +18,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         setSistema(unSistema);
 
-        //sistema.addObserver(this);
+        sistema.addObserver(this);
+       
+        actualizarVentana();
     }
 
     public Sistema getSistema() {
@@ -75,6 +74,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuJugador.add(jMenuItemRegistroJugador);
 
         jMenuItemRanking.setText("Ranking");
+        jMenuItemRanking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRankingActionPerformed(evt);
+            }
+        });
         jMenuJugador.add(jMenuItemRanking);
 
         jMenuBar1.add(jMenuJugador);
@@ -82,6 +86,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuPartida.setText("Partida");
 
         jMenuItemJugarPartida.setText("Jugar Partida");
+        jMenuItemJugarPartida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemJugarPartidaActionPerformed(evt);
+            }
+        });
         jMenuPartida.add(jMenuItemJugarPartida);
 
         jMenuItemReplicarPartida.setText("Replicar Partida");
@@ -120,6 +129,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ventana.setVisible(true);
     }//GEN-LAST:event_jMenuItemRegistroJugadorActionPerformed
 
+    private void jMenuItemJugarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemJugarPartidaActionPerformed
+        VentanaJugarPartida partida = new VentanaJugarPartida(this.getSistema());
+        partida.setVisible(true);
+    }//GEN-LAST:event_jMenuItemJugarPartidaActionPerformed
+
+    private void jMenuItemRankingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRankingActionPerformed
+        VentanaRanking ranking = new VentanaRanking(this.getSistema());
+        ranking.setVisible(true);
+    }//GEN-LAST:event_jMenuItemRankingActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -136,7 +155,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-   
+    @Override
+    public void update(Observable o, Object o1) {
+        actualizarVentana();
+    }
 
+    public void actualizarVentana() {
+        // Se habilitan las opciones del menú según la cantidad de gastos 
+        // disponibles
+        if (this.getSistema().getListaJugadores().size() > 1) {
+            jMenuPartida.setEnabled(true);
+        } else {
+            jMenuPartida.setEnabled(false);
+        }
+        if (this.getSistema().getListaPartidas().size() > 0) {
+            jMenuItemReplicarPartida.setEnabled(true);
+        } else {
+            jMenuItemReplicarPartida.setEnabled(false);
+        }
+        if (this.getSistema().getListaJugadores().size() > 0) {
+            jMenuItemRanking.setEnabled(true);
+        } else {
+            jMenuItemRanking.setEnabled(false);
+        }
+    }
 
 }

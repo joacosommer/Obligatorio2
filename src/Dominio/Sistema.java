@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Collections;
+import java.util.*;
+
 
 /*
 Joaquin Sommer - 184441
 Marcelo Ferreira - 175240
  */
-public class Sistema {
+public class Sistema extends Observable{
 
     private ArrayList<Jugador> listaJugadores;
     private ArrayList<Partida> listaPartidas;
@@ -25,6 +27,8 @@ public class Sistema {
 
     public void setListaJugadores(ArrayList<Jugador> listaJugadores) {
         this.listaJugadores = listaJugadores;
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public ArrayList<Partida> getListaPartidas() {
@@ -33,14 +37,20 @@ public class Sistema {
 
     public void setListaPartidas(ArrayList<Partida> listaPartidas) {
         this.listaPartidas = listaPartidas;
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public void agregarJugador(Jugador jugador) {
         this.getListaJugadores().add(jugador);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public void agregarPartida(Partida partida) {
         this.getListaPartidas().add(partida);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     //Devuelvo true si se llego al maximo de jugadas(movi)

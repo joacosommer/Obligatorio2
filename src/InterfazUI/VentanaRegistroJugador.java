@@ -5,7 +5,9 @@
  */
 package InterfazUI;
 
-import Dominio.Sistema;
+import Dominio.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
@@ -13,16 +15,19 @@ import Dominio.Sistema;
  */
 public class VentanaRegistroJugador extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentanaRegistroJugador
-     */
-     private Sistema sistema;
-     
+    private Sistema sistema;
+    Validaciones1 validaciones = new Validaciones1();
+
     public VentanaRegistroJugador(Sistema unSistema) {
         initComponents();
-        
+
         setSistema(unSistema);
+        
+        
+       
+        
     }
+
     public Sistema getSistema() {
         return sistema;
     }
@@ -56,9 +61,19 @@ public class VentanaRegistroJugador extends javax.swing.JFrame {
         jLabel3.setText("Edad:");
 
         jButton1.setText("Registrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nombre:");
 
@@ -138,13 +153,39 @@ public class VentanaRegistroJugador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Jugador j = new Jugador();
+        String nombre = this.jTextField1.getText();
+        String alias = this.jTextField2.getText();
+        String edad = this.jTextField3.getText();
+        if (validaciones.soloLetras(nombre) 
+                && validaciones.soloLetrasNumeros(alias) 
+                && !validaciones.chequearAlias(alias, sistema.getListaJugadores()) 
+                && validaciones.validarEdad(edad)) {
+            j.setNombre(nombre);
+            j.setAlias(alias);
+            j.setEdad(Integer.parseInt(edad));
+            this.getSistema().agregarJugador(j);
+            this.dispose();
+        } else {
+            Error error = new Error();
+            error.setVisible(true);
+        }
+
+        
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -157,4 +198,7 @@ public class VentanaRegistroJugador extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+
+
 }
