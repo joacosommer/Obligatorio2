@@ -9,6 +9,9 @@ import Dominio.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.*;
+import javax.swing.JList;
 
 /**
  *
@@ -22,6 +25,7 @@ public class Tablero2 extends javax.swing.JFrame {
     private Partida unaP;
     private int movi;
     Validaciones1 validaciones = new Validaciones1();
+    private ArrayList<int[]> mov = new ArrayList<int[]>();
 
     public Tablero2(Partida unaP, int movi, Tablero tablero, Sistema sistema) {
         initComponents();
@@ -55,6 +59,12 @@ public class Tablero2 extends javax.swing.JFrame {
                 }
             }
         }
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (int i = 0; i < sistema.piezasRojo().size(); i++) {
+            model.addElement(Integer.toString(sistema.piezasRojo().get(i).getValor()));
+        }
+        jList1.setModel(model);
 
     }
 
@@ -115,22 +125,14 @@ public class Tablero2 extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 460));
+        setPreferredSize(new java.awt.Dimension(700, 490));
         setResizable(false);
         setSize(new java.awt.Dimension(0, 0));
+        getContentPane().setLayout(null);
 
         panelJuego.setBackground(new java.awt.Color(0, 0, 0));
-
-        javax.swing.GroupLayout panelJuegoLayout = new javax.swing.GroupLayout(panelJuego);
-        panelJuego.setLayout(panelJuegoLayout);
-        panelJuegoLayout.setHorizontalGroup(
-            panelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
-        );
-        panelJuegoLayout.setVerticalGroup(
-            panelJuegoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        getContentPane().add(panelJuego);
+        panelJuego.setBounds(0, 0, 490, 460);
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 204));
         jLabel2.setText("Jugador Azul:");
@@ -199,7 +201,7 @@ public class Tablero2 extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(0, 25, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,7 +231,7 @@ public class Tablero2 extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addGap(26, 26, 26)
@@ -243,20 +245,8 @@ public class Tablero2 extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelJuego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelJuego, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(488, 0, 212, 460);
 
         pack();
         setLocationRelativeTo(null);
@@ -302,19 +292,95 @@ public class Tablero2 extends javax.swing.JFrame {
 // En fila y columna se reciben las coordenas donde presionó el usuario, relativas al comienzo de la grilla
 // fila 1 y columna 1 corresponden a la posición de arriba a la izquierda.
 // Debe indicarse cómo responder al click de ese botón.
-jugadaRoja(fila, columna);       
+
         //while (!sistema.terminaPartida(unaP, movi, tablero.getTablero())
-          //      && !sistema.todasOpuesto(tablero.getTablero())) {
-            //jugadaRoja(fila, columna);
+        //      && !sistema.todasOpuesto(tablero.getTablero())) {
+        //jugadaRoja(fila, columna);
         //}
+        int[] pos = new int[2];
+        pos[0] = fila - 1;
+        pos[1] = columna - 1;
+        //if (turnoRojo(listaJugadas, tablero, movi)) {
+        //if (tablero.getTablero()[pos[0]][pos[1]].getValor() != 0) {
+            mov.add(new int[]{pos[0], pos[1]});
+        //}
+        if (mov.size()>1 && devolverPieza(mov.get(mov.size() - 1)) != devolverPieza(mov.get(mov.size() - 2)) && !(devolverPieza(mov.get(mov.size() - 1)).getValor()==0)) {
+            if (jugada(mov.get(mov.size() - 1), pos) == "NO") {
+                Error error = new Error();
+                error.setVisible(true);
+            } else {
+                if (tablero.getTablero()[pos[0]][pos[1]].getValor() == 0 && mov.size() > 0) {
+                    Pieza p = tablero.getTablero()[mov.get(mov.size() - 1)[0]][mov.get(mov.size() - 1)[1]];
+                    tablero.getTablero()[pos[0]][pos[1]] = p;
+                    Pieza q = new Pieza();
+                    tablero.getTablero()[mov.get(mov.size() - 1)[0]][mov.get(mov.size() - 1)[1]] = q;
+                    mov.clear();
+                }
+
+            }
+        }
+
+        refresh();
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (int i = 0; i < mov.size(); i++) {
+            model.addElement(Integer.toString(mov.get(i)[0]) + " - " + Integer.toString(mov.get(i)[1]));
+        }
+        jList1.setModel(model);
+        
 
     }
     
-    public void jugadaRoja(int fila, int columna){
+    public Pieza devolverPieza(int[] pos){
+        Pieza p = new Pieza();
+        p = tablero.getTablero()[pos[0]][pos[1]];
+        return p;
+    }
+            
+    public void jugadaRoja(int fila, int columna) {
         tablero.getTablero()[5][5].setColor("Rojo");
         tablero.getTablero()[5][5].setValor(8);
         Tablero2 ventanaTablero = new Tablero2(unaP, movi, tablero, sistema);
         ventanaTablero.setVisible(true);
+    }
+
+    public void refresh() {
+        for (int i = 1; i <= 8; i++) {
+            for (int j = 1; j <= 9; j++) {
+                if (tablero.getTablero()[i - 1][j - 1].getColor() == "Rojo") {
+                    botones[i][j].setBackground(Color.RED);
+                } else if (tablero.getTablero()[i - 1][j - 1].getColor() == "Azul") {
+                    botones[i][j].setBackground(Color.BLUE);
+                } else {
+                    botones[i][j].setBackground(Color.GRAY);
+                }
+                if (tablero.getTablero()[i - 1][j - 1].getValor() != 0) {
+                    botones[i][j].setText(Integer.toString(tablero.getTablero()[i - 1][j - 1].getValor()));
+                }
+                if (tablero.getTablero()[i - 1][j - 1].getValor() == 0) {
+                    botones[i][j].setText("");
+                }
+
+            }
+        }
+    }
+
+    public String jugada(int[] posV, int[] posN) {
+        if (tablero.getTablero()[posV[0]][posV[1]].getColor().equals("Rojo")) {
+            if (posN[0] == posV[0] - 1 && posN[1] == posV[1]) {
+                return Integer.toString(posV[1]) + "A";
+            } else if (posN[0] == posV[0] - 1 && posN[1] == posV[1] + 1) {
+                return Integer.toString(posV[1]) + "D";
+            } else if (posN[0] == posV[0] - 1 && posN[1] == posV[1] - 1) {
+                return Integer.toString(posV[1]) + "I";
+            } else {
+                return "NO";
+            }
+        }
+        if (tablero.getTablero()[posV[0]][posV[1]].getValor()== 0){
+            return "cero";
+        }
+        return "cero";
     }
 
 }
