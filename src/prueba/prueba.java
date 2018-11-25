@@ -4,20 +4,14 @@ package prueba;
 import Dominio.Sistema;
 import InterfazUI.VentanaPrincipal;
 import javax.swing.JOptionPane;
+import Serializacion.*;
 public class prueba {
     
     public static void main(String[] args) {
-        
-        // Se crea el modelo
-         Sistema sistema = new Sistema();
-
-        // Se crea la ventana y se le pasa el modelo por el constructor
+        Persistencia persistencia = new Persistencia();
+        Sistema sistema = persistencia.cargarSistema();
         VentanaPrincipal ventana = new VentanaPrincipal(sistema);
-        
-        // Opcional: se asignar look and feel
         asignarLookAndFeel();
-        
-        //Se hace visible la ventana
         ventana.setVisible(true);
 
     }

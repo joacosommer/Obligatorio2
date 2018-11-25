@@ -5,13 +5,15 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Collections;
 import java.util.*;
+import Serializacion.*;
+import java.io.*;
 
 
 /*
 Joaquin Sommer - 184441
 Marcelo Ferreira - 175240
  */
-public class Sistema extends Observable {
+public class Sistema extends Observable implements Serializable{
 
     private ArrayList<Jugador> listaJugadores;
     private ArrayList<Partida> listaPartidas;
@@ -407,5 +409,55 @@ public class Sistema extends Observable {
             }
         }
         return j;
+    }
+    
+    public boolean importarJugadores(String pathArchivo) {
+        boolean importoOk = true;
+        ArchivoLectura arch = new ArchivoLectura(pathArchivo);
+        while (arch.hayMasLineas()) {
+            try {
+                String linea = arch.linea();
+                if (importeValido(linea)) {
+                    String[] tokens = linea.split("#");
+                    String nombre = tokens[0];
+                    String alias = tokens[1];
+                    int edad = Integer.parseInt(tokens[2]);
+                    int cantidadGanadas = Integer.parseInt(tokens[3]);
+                    Jugador jugador = new Jugador(nombre,alias,edad,cantidadGanadas);
+                    if(listaJugadores.contains(jugador)){
+                       int num = listaJugadores.indexOf(jugador);
+                       listaJugadores.get(num).setNombre(nombre);
+                       listaJugadores.get(num).setEdad(edad);
+                    }
+                    else {
+                        listaJugadores.add(jugador);
+                    } 
+                }
+                else {
+                    importoOk = false;
+                }
+            } catch (Exception err) {
+                importoOk = false;
+            }
+        }
+        arch.cerrar();
+        return importoOk;
+    }
+
+    public boolean importeValido(String linea) {
+        char uno = ' ';
+        char dos = ' ';
+        boolean esValido = true;
+        String[] tokens = linea.split("#");
+        if (tokens.length != 4 || tokens[0].isEmpty() || tokens[1].isEmpty() || tokens[2].isEmpty() || tokens[3].isEmpty()) {
+            esValido = false;
+        } else {
+            uno = tokens[2].charAt(0);
+            dos = tokens[2].charAt(1);
+            if (!Character.isDigit(uno) || !Character.isDigit(dos)) {
+                esValido = false;
+            }
+        }
+        return esValido;
     }
 }

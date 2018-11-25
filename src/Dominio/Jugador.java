@@ -1,12 +1,12 @@
 package Dominio;
 
 import java.util.Objects;
-
+import java.io.*;
 /*
 Joaquin Sommer - 184441
 Marcelo Ferreira - 175240
  */
-public class Jugador implements Comparable<Jugador> {
+public class Jugador implements Comparable<Jugador>, Serializable  {
 
     private String nombre;
     private String alias;
@@ -81,4 +81,6 @@ public class Jugador implements Comparable<Jugador> {
     public void sumarUnaGanada() {
         this.setCantidadGanadas(this.getCantidadGanadas() + 1);
     }
+    
+    
 }
