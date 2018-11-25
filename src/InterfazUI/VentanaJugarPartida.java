@@ -21,6 +21,7 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
     Validaciones1 validaciones = new Validaciones1();
 
     public VentanaJugarPartida(Sistema unSistema) {
+
         initComponents();
         setSistema(unSistema);
 
@@ -29,8 +30,9 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
             array[i] = sistema.getListaJugadores().get(i).getAlias();
         }
         final DefaultComboBoxModel model = new DefaultComboBoxModel(array);
+        final DefaultComboBoxModel model2 = new DefaultComboBoxModel(array);
         jComboBox1.setModel(model);
-        jComboBox2.setModel(model);
+        jComboBox2.setModel(model2);
 
     }
 
@@ -67,6 +69,7 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Jugar Partida");
 
         jLabel1.setText("Jugador Azul:");
 
@@ -78,11 +81,14 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel3.setText("Forma terminacion:");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("1 - Numero maximo de jugadas");
 
@@ -91,6 +97,11 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
         jLabel6.setText("3 - Todas las piezas lado opuesto");
 
         jButton1.setText("Iniciar Partida");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("Cancelar");
@@ -99,8 +110,6 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-
-        jTextField1.setText("jTextField1");
 
         jLabel7.setText("Numero de jugadas:");
 
@@ -125,7 +134,7 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(28, 28, 28)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton2)
@@ -198,6 +207,37 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        if (jComboBox3.getSelectedItem().equals("1")) {
+            jLabel7.setVisible(true);
+            jTextField1.setVisible(true);
+        } else {
+            jLabel7.setVisible(false);
+            jTextField1.setVisible(false);
+        }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (jComboBox1.getSelectedItem() != jComboBox2.getSelectedItem() && ((validaciones.soloNumeros(jTextField1.getText()) && jComboBox3.getSelectedItem().equals("1")) || jComboBox3.getSelectedItem() != "1")) {
+            Partida unaP = new Partida();
+            Tablero tablero = new Tablero();
+            unaP.setJugadorAzul(sistema.devolverJugador(jComboBox1.getSelectedItem()));
+            unaP.setJugadorRojo(sistema.devolverJugador(jComboBox2.getSelectedItem()));
+            int tipo = Integer.valueOf((String) jComboBox3.getSelectedItem());
+            unaP.setTipoPartida(tipo);
+            int movi = 0;
+            if (!jTextField1.getText().isEmpty()) {
+                movi = Integer.parseInt(jTextField1.getText());
+            }
+            Tablero2 ventanaTablero = new Tablero2(unaP, movi, tablero, sistema);
+            ventanaTablero.setVisible(true);
+        } else {
+            Error error = new Error();
+            error.setVisible(true);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -215,4 +255,5 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
 }

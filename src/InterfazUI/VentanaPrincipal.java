@@ -14,6 +14,8 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private Sistema sistema;
 
     public VentanaPrincipal(Sistema unSistema) {
+        //sistema.jugad();
+        
         initComponents();
 
         setSistema(unSistema);

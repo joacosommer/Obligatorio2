@@ -11,10 +11,17 @@ import java.util.*;
 Joaquin Sommer - 184441
 Marcelo Ferreira - 175240
  */
-public class Sistema extends Observable{
+public class Sistema extends Observable {
 
     private ArrayList<Jugador> listaJugadores;
     private ArrayList<Partida> listaPartidas;
+
+    public void jugad() {
+        Jugador j = new Jugador("Joaquin", "JSJS", 23, 1);
+        Jugador m = new Jugador("Marcelo", "Marce", 26, 3);
+        agregarJugador(j);
+        agregarJugador(m);
+    }
 
     public Sistema() {
         this.listaJugadores = new ArrayList();
@@ -228,7 +235,7 @@ public class Sistema extends Observable{
             for (int i = 0; i < piezaMover.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     if (tablero.validacionJugada(piezaMover.get(i), direc[j],
-                             tablero.getTablero())) {
+                            tablero.getTablero())) {
                         aux.add(piezaMover.get(i));
                     }
                 }
@@ -237,7 +244,7 @@ public class Sistema extends Observable{
             for (int i = 0; i < piezaMover.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     if (tablero.validacionJugada(piezaMover.get(i), direc[j],
-                             tablero.getTablero())) {
+                            tablero.getTablero())) {
                         aux.add(piezaMover.get(i));
                     }
                 }
@@ -258,7 +265,7 @@ public class Sistema extends Observable{
     //Devuelvo las posibles jugadas que puede hacer el jugador Azul
     //No tiene mucho uso pero capaz despues la puedo utilizar mas
     public ArrayList<Jugada> posiblesJugadasAzul(Tablero tablero,
-             ArrayList<Pieza> piezaMover, Jugador jugadorAzul) {
+            ArrayList<Pieza> piezaMover, Jugador jugadorAzul) {
         ArrayList<Jugada> posiblesJugadas = new ArrayList<>();
         Character[] direc = {'A', 'D', 'I'};
         if (piezaMover.size() == 8) {
@@ -266,9 +273,9 @@ public class Sistema extends Observable{
             for (int i = 0; i < piezaMover.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     if (tablero.validacionJugada(piezaMover.get(i),
-                             direc[j], tablero.getTablero())) {
+                            direc[j], tablero.getTablero())) {
                         Jugada aux = new Jugada(piezaMover.get(i),
-                                 jugadorAzul, direc[j]);
+                                jugadorAzul, direc[j]);
                         posiblesJugadas.add(aux);
 
                     }
@@ -278,9 +285,9 @@ public class Sistema extends Observable{
             for (int i = 0; i < piezaMover.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     if (tablero.validacionJugada(piezaMover.get(i), direc[j],
-                             tablero.getTablero())) {
+                            tablero.getTablero())) {
                         Jugada aux = new Jugada(piezaMover.get(i), jugadorAzul,
-                                 direc[j]);
+                                direc[j]);
                         posiblesJugadas.add(aux);
                     }
                 }
@@ -292,16 +299,16 @@ public class Sistema extends Observable{
     //Devuelvo las posibles jugadas que puede hacer el jugador Rojo
     //No tiene mucho uso pero capaz despues la puedo utilizar mas
     public ArrayList<Jugada> posiblesJugadasRojo(Tablero tablero,
-             ArrayList<Pieza> piezaMover, Jugador jugadorRojo) {
+            ArrayList<Pieza> piezaMover, Jugador jugadorRojo) {
         ArrayList<Jugada> posiblesJugadas = new ArrayList<>();
         Character[] direc = {'A', 'D', 'I'};
         if (piezaMover.size() == 8) {
             for (int i = 0; i < piezaMover.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     if (tablero.validacionJugada(piezaMover.get(i),
-                             direc[j], tablero.getTablero())) {
+                            direc[j], tablero.getTablero())) {
                         Jugada aux = new Jugada(piezaMover.get(i),
-                                 jugadorRojo, direc[j]);
+                                jugadorRojo, direc[j]);
                         posiblesJugadas.add(aux);
 
                     }
@@ -352,5 +359,15 @@ public class Sistema extends Observable{
             aux.add(new Pieza("Rojo", i));
         }
         return aux;
+    }
+    
+    public Jugador devolverJugador(Object alias){
+        Jugador j = new Jugador();
+        for (int i=0; i<this.getListaJugadores().size();i++){
+            if (alias.equals(this.getListaJugadores().get(i).getAlias())){
+                j = this.getListaJugadores().get(i);
+            }
+        }
+        return j;
     }
 }

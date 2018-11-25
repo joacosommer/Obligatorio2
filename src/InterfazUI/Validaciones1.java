@@ -186,7 +186,7 @@ public class Validaciones1 {
 
     public boolean soloNumeros(String str) {
         boolean esta = false;
-        if (str.matches("^[0-9]+")) {
+        if (str.matches("^[0-9]+") && Integer.parseInt(str) > 0) {
             esta = true;
         }
         return esta;
