@@ -15,14 +15,15 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
     public VentanaPrincipal(Sistema unSistema) {
         //sistema.jugad();
-        
+
         initComponents();
 
         setSistema(unSistema);
 
         sistema.addObserver(this);
-       
+
         actualizarVentana();
+        this.setEnabled(true);
     }
 
     public Sistema getSistema() {
@@ -129,16 +130,19 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private void jMenuItemRegistroJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegistroJugadorActionPerformed
         VentanaRegistroJugador ventana = new VentanaRegistroJugador(this.getSistema());
         ventana.setVisible(true);
+        
     }//GEN-LAST:event_jMenuItemRegistroJugadorActionPerformed
 
     private void jMenuItemJugarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemJugarPartidaActionPerformed
         VentanaJugarPartida partida = new VentanaJugarPartida(this.getSistema());
         partida.setVisible(true);
+        
     }//GEN-LAST:event_jMenuItemJugarPartidaActionPerformed
 
     private void jMenuItemRankingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRankingActionPerformed
         VentanaRanking ranking = new VentanaRanking(this.getSistema());
         ranking.setVisible(true);
+        
     }//GEN-LAST:event_jMenuItemRankingActionPerformed
 
     /**
@@ -157,14 +161,15 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
+    
+    
     @Override
-    public void update(Observable o, Object o1) {
+        public void update(Observable o, Object o1) {
         actualizarVentana();
     }
 
     public void actualizarVentana() {
-        // Se habilitan las opciones del menú según la cantidad de gastos 
-        // disponibles
+        
         if (this.getSistema().getListaJugadores().size() > 1) {
             jMenuPartida.setEnabled(true);
         } else {
@@ -180,6 +185,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         } else {
             jMenuItemRanking.setEnabled(false);
         }
+        this.setEnabled(true);
     }
 
 }

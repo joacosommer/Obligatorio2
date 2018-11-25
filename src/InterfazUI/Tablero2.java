@@ -26,6 +26,9 @@ public class Tablero2 extends javax.swing.JFrame {
     private int movi;
     Validaciones1 validaciones = new Validaciones1();
     private ArrayList<int[]> mov = new ArrayList<int[]>();
+    private Jugador jugadorTurno;
+    private ArrayList<Pieza> jugadasPosibles;
+    private int contador = 0;
 
     public Tablero2(Partida unaP, int movi, Tablero tablero, Sistema sistema) {
         initComponents();
@@ -65,7 +68,17 @@ public class Tablero2 extends javax.swing.JFrame {
             model.addElement(Integer.toString(sistema.piezasRojo().get(i).getValor()));
         }
         jList1.setModel(model);
+        jugadorTurno = unaP.getJugadorRojo();
+        jugadasPosibles = sistema.piezasRojo();
 
+    }
+
+    public Jugador getJugadorTurno() {
+        return jugadorTurno;
+    }
+
+    public void setJugadorTurno(Jugador jugadorTurno) {
+        this.jugadorTurno = jugadorTurno;
     }
 
     public Tablero getTablero() {
@@ -165,11 +178,26 @@ public class Tablero2 extends javax.swing.JFrame {
 
         jButton1.setForeground(new java.awt.Color(255, 0, 0));
         jButton1.setText("Abandonar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setForeground(new java.awt.Color(0, 0, 204));
         jButton2.setText("Abandonar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Pasar turno");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -252,6 +280,29 @@ public class Tablero2 extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (contador != 0) {
+            cambiarTurno();
+            contador = 0;
+        }
+        refreshJugadas(jugadasPosibles);
+        labelTurnos();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        unaP.getJugadorRojo().sumarUnaGanada();
+        TerminoPartida ventana = new TerminoPartida(unaP.getJugadorRojo());
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        unaP.getJugadorAzul().sumarUnaGanada();
+        TerminoPartida ventana = new TerminoPartida(unaP.getJugadorAzul());
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -288,55 +339,140 @@ public class Tablero2 extends javax.swing.JFrame {
     }
 
     private void clickBoton(int fila, int columna) {
-// Método a completar!.
-// En fila y columna se reciben las coordenas donde presionó el usuario, relativas al comienzo de la grilla
-// fila 1 y columna 1 corresponden a la posición de arriba a la izquierda.
-// Debe indicarse cómo responder al click de ese botón.
-
-        //while (!sistema.terminaPartida(unaP, movi, tablero.getTablero())
-        //      && !sistema.todasOpuesto(tablero.getTablero())) {
-        //jugadaRoja(fila, columna);
-        //}
         int[] pos = new int[2];
         pos[0] = fila - 1;
         pos[1] = columna - 1;
-        //if (turnoRojo(listaJugadas, tablero, movi)) {
-        //if (tablero.getTablero()[pos[0]][pos[1]].getValor() != 0) {
+
+        if (tablero.getTablero()[pos[0]][pos[1]].getValor() != 0 && jugadasPosibles.contains(tablero.getTablero()[pos[0]][pos[1]])) {
             mov.add(new int[]{pos[0], pos[1]});
-        //}
-        if (mov.size()>1 && devolverPieza(mov.get(mov.size() - 1)) != devolverPieza(mov.get(mov.size() - 2)) && !(devolverPieza(mov.get(mov.size() - 1)).getValor()==0)) {
-            if (jugada(mov.get(mov.size() - 1), pos) == "NO") {
-                Error error = new Error();
-                error.setVisible(true);
+        }
+
+        if (mov.size() > 0) {
+
+            Pieza p = new Pieza();
+
+            if (jugada(mov.get(mov.size() - 1), pos, jugadorTurno) == "NO" && tablero.getTablero()[pos[0]][pos[1]].getValor() == 0) {
+                JOptionPane.showMessageDialog(this, "Movimiento no valido",
+                        "Error", JOptionPane.OK_OPTION);
             } else {
                 if (tablero.getTablero()[pos[0]][pos[1]].getValor() == 0 && mov.size() > 0) {
-                    Pieza p = tablero.getTablero()[mov.get(mov.size() - 1)[0]][mov.get(mov.size() - 1)[1]];
+                    p = tablero.getTablero()[mov.get(mov.size() - 1)[0]][mov.get(mov.size() - 1)[1]];
                     tablero.getTablero()[pos[0]][pos[1]] = p;
                     Pieza q = new Pieza();
                     tablero.getTablero()[mov.get(mov.size() - 1)[0]][mov.get(mov.size() - 1)[1]] = q;
+                    Jugada j = new Jugada();
+                    char dire = jugada(mov.get(mov.size() - 1), pos, jugadorTurno).charAt(1);
+                    j.setDireccion(dire);
+                    j.setJugador(jugadorTurno);
+                    if (jugadorTurno == unaP.getJugadorRojo()) {
+                        j.setPieza(tablero.buscarPiezaRoja(jugada(mov.get(mov.size() - 1), pos, jugadorTurno), tablero.getTablero()));
+                    } else {
+                        j.setPieza(tablero.buscarPiezaAzul(jugada(mov.get(mov.size() - 1), pos, jugadorTurno), tablero.getTablero()));
+                    }
+                    unaP.setListaJugadas(j);
                     mov.clear();
+                    contador++;
+                    jugadasPosibles = sistema.piezasMovibles(tablero, p);
                 }
 
             }
         }
 
-        refresh();
-
-        DefaultListModel<String> model = new DefaultListModel<>();
-        for (int i = 0; i < mov.size(); i++) {
-            model.addElement(Integer.toString(mov.get(i)[0]) + " - " + Integer.toString(mov.get(i)[1]));
+        if (sistema.terminaPartida(unaP, movi, tablero.getTablero()) || sistema.todasOpuesto(tablero.getTablero())) {
+            if (ganador(unaP, tablero) == "ganoRojo") {
+                TerminoPartida ventana = new TerminoPartida(unaP.getJugadorRojo());
+                ventana.setVisible(true);
+            } else if (ganador(unaP, tablero) == "ganoAzul") {
+                TerminoPartida ventana = new TerminoPartida(unaP.getJugadorAzul());
+                ventana.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Empate",
+                        "Empate", JOptionPane.OK_OPTION);
+            }
+            this.dispose();
         }
-        jList1.setModel(model);
-        
+        if (jugadasPosibles.size() == 0) {
+            cambiarTurno();
+            contador = 0;
+        }
+
+        refresh();
+        refreshJugadas(jugadasPosibles);
+        labelTurnos();
 
     }
-    
-    public Pieza devolverPieza(int[] pos){
+
+    public String ganador(Partida unaP, Tablero tablero) {
+        boolean ganoRojo = false;
+        boolean ganoAzul = false;
+        boolean empate = false;
+        int[] sumaM = sistema.sumaMitades(tablero.getTablero());
+        int[] sumaL = sistema.sumaLados(tablero.getTablero());
+        if (unaP.getTipoPartida() == 1
+                && !sistema.todasOpuesto(tablero.getTablero())) {
+            if (sumaM[0] > sumaM[1]) {
+                ganoRojo = true;
+            } else if (sumaM[0] < sumaM[1]) {
+                ganoAzul = true;
+            } else {
+                empate = true;
+            }
+        } else {
+            if (sumaL[0] > sumaL[1]) {
+                ganoRojo = true;
+            }
+            if (sumaL[0] < sumaL[1]) {
+                ganoAzul = true;
+            }
+        }
+
+        if (ganoRojo == true) {
+            unaP.getJugadorRojo().sumarUnaGanada();
+            return "ganoRojo";
+        }
+        if (ganoAzul == true) {
+            unaP.getJugadorAzul().sumarUnaGanada();
+            return "ganoAzul";
+        }
+        return "empate";
+    }
+
+    public void labelTurnos() {
+        if (jugadorTurno == unaP.getJugadorRojo()) {
+            jLabel1.setVisible(false);
+            jLabel7.setVisible(true);
+        } else {
+            jLabel7.setVisible(false);
+            jLabel1.setVisible(true);
+        }
+    }
+
+    public void cambiarTurno() {
+        if (jugadorTurno == unaP.getJugadorRojo()) {
+            jugadorTurno = unaP.getJugadorAzul();
+            jugadasPosibles = sistema.primerPiezasAzul(tablero, jugadorTurno);
+
+        } else {
+            jugadorTurno = unaP.getJugadorRojo();
+            jugadasPosibles = sistema.primerPiezasRojos(tablero, jugadorTurno);
+
+        }
+    }
+
+    public void refreshJugadas(ArrayList<Pieza> piezas) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (int i = 0; i < piezas.size(); i++) {
+            model.addElement(Integer.toString(piezas.get(i).getValor()));
+        }
+        jList1.setModel(model);
+    }
+
+    public Pieza devolverPieza(int[] pos) {
         Pieza p = new Pieza();
         p = tablero.getTablero()[pos[0]][pos[1]];
         return p;
     }
-            
+
     public void jugadaRoja(int fila, int columna) {
         tablero.getTablero()[5][5].setColor("Rojo");
         tablero.getTablero()[5][5].setValor(8);
@@ -365,22 +501,27 @@ public class Tablero2 extends javax.swing.JFrame {
         }
     }
 
-    public String jugada(int[] posV, int[] posN) {
-        if (tablero.getTablero()[posV[0]][posV[1]].getColor().equals("Rojo")) {
+    public String jugada(int[] posV, int[] posN, Jugador jugadorTurno) {
+        String devo = "NO";
+        if (jugadorTurno == unaP.getJugadorRojo()) {
             if (posN[0] == posV[0] - 1 && posN[1] == posV[1]) {
-                return Integer.toString(posV[1]) + "A";
+                devo = Integer.toString(posV[1]) + "A";
             } else if (posN[0] == posV[0] - 1 && posN[1] == posV[1] + 1) {
-                return Integer.toString(posV[1]) + "D";
+                devo = Integer.toString(posV[1]) + "D";
             } else if (posN[0] == posV[0] - 1 && posN[1] == posV[1] - 1) {
-                return Integer.toString(posV[1]) + "I";
-            } else {
-                return "NO";
+                devo = Integer.toString(posV[1]) + "I";
             }
         }
-        if (tablero.getTablero()[posV[0]][posV[1]].getValor()== 0){
-            return "cero";
+        if (jugadorTurno == unaP.getJugadorAzul()) {
+            if (posN[0] == posV[0] + 1 && posN[1] == posV[1]) {
+                devo = Integer.toString(posV[1]) + "A";
+            } else if (posN[0] == posV[0] + 1 && posN[1] == posV[1] + 1) {
+                devo = Integer.toString(posV[1]) + "D";
+            } else if (posN[0] == posV[0] + 1 && posN[1] == posV[1] - 1) {
+                devo = Integer.toString(posV[1]) + "I";
+            }
         }
-        return "cero";
+        return devo;
     }
 
 }

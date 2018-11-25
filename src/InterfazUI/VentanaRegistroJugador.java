@@ -57,6 +57,7 @@ public class VentanaRegistroJugador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registrar Jugador");
+        setPreferredSize(new java.awt.Dimension(400, 220));
 
         jLabel3.setText("Edad:");
 
@@ -148,7 +149,7 @@ public class VentanaRegistroJugador extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(416, 339));
+        pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -179,7 +180,7 @@ public class VentanaRegistroJugador extends javax.swing.JFrame {
             error.setVisible(true);
         }
 
-        
+     
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

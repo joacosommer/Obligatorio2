@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -231,11 +232,11 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
             }
             Tablero2 ventanaTablero = new Tablero2(unaP, movi, tablero, sistema);
             ventanaTablero.setVisible(true);
+            this.dispose();
         } else {
-            Error error = new Error();
-            error.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Error al ingresar los datos",
+                        "Error", JOptionPane.OK_OPTION);
         }
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

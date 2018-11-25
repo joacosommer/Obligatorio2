@@ -161,7 +161,7 @@ public class Sistema extends Observable {
 
     //Me devuelve un arraylist con los movimientos posibles despues de 
     //mover una pieza. Puede que haya repetidos
-    public ArrayList<Pieza> movimientosPosibles(Tablero tablero, Pieza pieza) {
+       public ArrayList<Pieza> movimientosPosibles(Tablero tablero, Pieza pieza) {
         ArrayList<Pieza> piezasMovibles = new ArrayList<>();
         int[] pos = tablero.posPieza(tablero.getTablero(), pieza);
         int sumaDiag1 = 0;
@@ -327,6 +327,44 @@ public class Sistema extends Observable {
             }
         }
         return posiblesJugadas;
+    }
+    
+    public ArrayList<Pieza> primerPiezasRojos(Tablero tablero, Jugador jugador){
+        ArrayList<Pieza> aux = new ArrayList<Pieza>();
+        ArrayList<Jugada> jugadasPosibles = new ArrayList<Jugada>();
+        jugadasPosibles = posiblesJugadasRojo(tablero, piezasRojo(), jugador);
+        for (int i=0; i<jugadasPosibles.size();i++){
+            aux.add(jugadasPosibles.get(i).getPieza());
+        }
+        for (int i = 0; i < aux.size(); i++) {
+            for (int j = i + 1; j < aux.size(); j++) {
+                if (aux.get(i).equals(aux.get(j))) {
+                    aux.remove(j);
+                    j--;
+                }
+            }
+        }
+        Collections.sort(aux);
+        return aux;
+    }
+    
+    public ArrayList<Pieza> primerPiezasAzul(Tablero tablero, Jugador jugador){
+        ArrayList<Pieza> aux = new ArrayList<Pieza>();
+        ArrayList<Jugada> jugadasPosibles = new ArrayList<Jugada>();
+        jugadasPosibles = posiblesJugadasAzul(tablero, piezasAzul(), jugador);
+        for (int i=0; i<jugadasPosibles.size();i++){
+            aux.add(jugadasPosibles.get(i).getPieza());
+        }
+        for (int i = 0; i < aux.size(); i++) {
+            for (int j = i + 1; j < aux.size(); j++) {
+                if (aux.get(i).equals(aux.get(j))) {
+                    aux.remove(j);
+                    j--;
+                }
+            }
+        }
+        Collections.sort(aux);
+        return aux;
     }
 
     //Valido si la pieza que desea mover es efectivamente una de las 
