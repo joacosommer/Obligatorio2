@@ -99,7 +99,12 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         });
         jMenuPartida.add(jMenuItemJugarPartida);
 
-        jMenuItemReplicarPartida.setText("Replicar Partida");
+        jMenuItemReplicarPartida.setText("Lista Partidas");
+        jMenuItemReplicarPartida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemReplicarPartidaActionPerformed(evt);
+            }
+        });
         jMenuPartida.add(jMenuItemReplicarPartida);
 
         jMenuBar1.add(jMenuPartida);
@@ -161,6 +166,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         guardar();
         System.exit(0);
     }//GEN-LAST:event_salirJuegoActionPerformed
+
+    private void jMenuItemReplicarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemReplicarPartidaActionPerformed
+        VentanaListaPartidas ventana = new VentanaListaPartidas(this.getSistema());
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jMenuItemReplicarPartidaActionPerformed
     public void guardar() {
         Persistencia per = new Persistencia();
         per.guardarSistema(sistema);

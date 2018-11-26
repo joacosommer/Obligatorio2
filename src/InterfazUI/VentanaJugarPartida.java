@@ -229,9 +229,9 @@ public class VentanaJugarPartida extends javax.swing.JFrame implements Observer{
             unaP.setTipoPartida(tipo);
             int movi = 0;
             if (!jTextField1.getText().isEmpty()) {
-                movi = Integer.parseInt(jTextField1.getText());
+                unaP.setMovi(Integer.parseInt(jTextField1.getText())); 
             }
-            Tablero2 ventanaTablero = new Tablero2(unaP, movi, tablero, sistema);
+            Tablero2 ventanaTablero = new Tablero2(unaP, tablero, sistema);
             ventanaTablero.setVisible(true);
             this.dispose();
         } else {

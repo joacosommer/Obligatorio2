@@ -5,17 +5,83 @@
  */
 package InterfazUI;
 
+import Dominio.*;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Marce
  */
 public class VentanaReplicarPartida extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentanaReplicarPartida
-     */
-    public VentanaReplicarPartida() {
+    private Sistema sistema;
+    private Partida partida;
+    private JButton[][] botones;
+    private Tablero tablero = new Tablero();
+    private int cantidadJugadas = 0;
+
+    public VentanaReplicarPartida(Sistema unSistema, Partida p) {
+
         initComponents();
+        this.setSistema(unSistema);
+        this.setPartida(p);
+        panelJuego.setLayout(new GridLayout(8, 9));
+        botones = new JButton[9][10];
+        for (int i = 1; i <= 8; i++) {
+            for (int j = 1; j <= 9; j++) {
+                JButton jButton = new JButton();
+                jButton.addActionListener(new ListenerBoton(i, j));
+                panelJuego.add(jButton);
+                botones[i][j] = jButton;
+                botones[i][j].setMargin(new Insets(8, 8, 8, 8));
+                if (tablero.getTablero()[i - 1][j - 1].getColor() == "Rojo") {
+                    botones[i][j].setBackground(Color.RED);
+                } else if (tablero.getTablero()[i - 1][j - 1].getColor() == "Azul") {
+                    botones[i][j].setBackground(Color.BLUE);
+                } else {
+                    botones[i][j].setBackground(Color.GRAY);
+                }
+                if (tablero.getTablero()[i - 1][j - 1].getValor() != 0) {
+                    jButton.setText(Integer.toString(tablero.getTablero()[i - 1][j - 1].getValor()));
+                }
+            }
+        }
+
+    }
+
+    public Tablero getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
+    }
+
+    public Sistema getSistema() {
+        return sistema;
+    }
+
+    public void setSistema(Sistema sistema) {
+        this.sistema = sistema;
+    }
+
+    public Partida getPartida() {
+        return partida;
+    }
+
+    public void setPartida(Partida partida) {
+        this.partida = partida;
     }
 
     /**
@@ -27,57 +93,174 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelJuego = new javax.swing.JPanel();
+        SiguienteJugada = new javax.swing.JButton();
+        ReplicarPartida = new javax.swing.JButton();
+        Cerrar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Repeticion de partida");
+        setPreferredSize(new java.awt.Dimension(500, 550));
+        setResizable(false);
+        getContentPane().setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        panelJuego.setBackground(new java.awt.Color(0, 0, 0));
+        getContentPane().add(panelJuego);
+        panelJuego.setBounds(0, 0, 490, 460);
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaReplicarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaReplicarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaReplicarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaReplicarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaReplicarPartida().setVisible(true);
+        SiguienteJugada.setText("Siguiente jugada");
+        SiguienteJugada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SiguienteJugadaActionPerformed(evt);
             }
         });
-    }
+        getContentPane().add(SiguienteJugada);
+        SiguienteJugada.setBounds(30, 480, 140, 23);
+
+        ReplicarPartida.setText("Replicar Partida");
+        ReplicarPartida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReplicarPartidaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(ReplicarPartida);
+        ReplicarPartida.setBounds(190, 480, 120, 23);
+
+        Cerrar.setText("Cerrar");
+        Cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Cerrar);
+        Cerrar.setBounds(390, 480, 63, 23);
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_CerrarActionPerformed
+
+    private void SiguienteJugadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SiguienteJugadaActionPerformed
+        ArrayList<Jugada> jugadas = partida.getListaJugadas();
+        if (cantidadJugadas < jugadas.size()) {
+            if (jugadas.get(cantidadJugadas).getPieza().getColor().equals("Azul")) {
+                tablero.moverAzul(jugadas.get(cantidadJugadas).getPieza(), jugadas
+                        .get(cantidadJugadas).getDireccion(), tablero.getTablero());
+            } else if (jugadas.get(cantidadJugadas).getPieza().getColor() == "Rojo") {
+
+                tablero.moverRojo(jugadas.get(cantidadJugadas).getPieza(), jugadas
+                        .get(cantidadJugadas).getDireccion(), tablero.getTablero());
+            }
+            cantidadJugadas++;
+            refresh();
+        } else {
+            vencedor();
+        }
+
+    }//GEN-LAST:event_SiguienteJugadaActionPerformed
+
+    private void ReplicarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReplicarPartidaActionPerformed
+        Tablero2 ventanaTablero = new Tablero2(this.getPartida(), this.getTablero(), this.getSistema());
+        ventanaTablero.setVisible(true);
+    }//GEN-LAST:event_ReplicarPartidaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cerrar;
+    private javax.swing.JButton ReplicarPartida;
+    private javax.swing.JButton SiguienteJugada;
+    private javax.swing.JPanel panelJuego;
     // End of variables declaration//GEN-END:variables
+
+    private class ListenerBoton implements ActionListener {
+
+        private int x;
+        private int y;
+
+        public ListenerBoton(int i, int j) {
+// en el constructor se almacena la fila y columna que se presionó
+            x = i;
+            y = j;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+// cuando se presiona un botón, se ejecutará este método
+            clickBoton(x, y);
+        }
+    }
+
+    private void clickBoton(int fila, int columna) {
+
+    }
+
+    public void vencedor() {
+        if (ganador(partida, tablero) == "ganoRojo") {
+            TerminoPartida ventana = new TerminoPartida(partida.getJugadorRojo());
+            ventana.setVisible(true);
+        } else if (ganador(partida, tablero) == "ganoAzul") {
+            TerminoPartida ventana = new TerminoPartida(partida.getJugadorAzul());
+            ventana.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Empate",
+                    "Empate", JOptionPane.OK_OPTION);
+        }
+        this.dispose();
+    }
+
+    public String ganador(Partida unaP, Tablero tablero) {
+        boolean ganoRojo = false;
+        boolean ganoAzul = false;
+        boolean empate = false;
+        int[] sumaM = sistema.sumaMitades(tablero.getTablero());
+        int[] sumaL = sistema.sumaLados(tablero.getTablero());
+        if (unaP.getTipoPartida() == 1
+                && !sistema.todasOpuesto(tablero.getTablero())) {
+            if (sumaM[0] > sumaM[1]) {
+                ganoRojo = true;
+            } else if (sumaM[0] < sumaM[1]) {
+                ganoAzul = true;
+            } else {
+                empate = true;
+            }
+        } else {
+            if (sumaL[0] > sumaL[1]) {
+                ganoRojo = true;
+            }
+            if (sumaL[0] < sumaL[1]) {
+                ganoAzul = true;
+            }
+        }
+
+        if (ganoRojo == true) {
+            return "ganoRojo";
+        }
+        if (ganoAzul == true) {
+            return "ganoAzul";
+        }
+        return "empate";
+    }
+
+    public void refresh() {
+        for (int i = 1; i <= 8; i++) {
+            for (int j = 1; j <= 9; j++) {
+                if (tablero.getTablero()[i - 1][j - 1].getColor() == "Rojo") {
+                    botones[i][j].setBackground(Color.RED);
+                } else if (tablero.getTablero()[i - 1][j - 1].getColor() == "Azul") {
+                    botones[i][j].setBackground(Color.BLUE);
+                } else {
+                    botones[i][j].setBackground(Color.GRAY);
+                }
+                if (tablero.getTablero()[i - 1][j - 1].getValor() != 0) {
+                    botones[i][j].setText(Integer.toString(tablero.getTablero()[i - 1][j - 1].getValor()));
+                }
+                if (tablero.getTablero()[i - 1][j - 1].getValor() == 0) {
+                    botones[i][j].setText("");
+                }
+
+            }
+        }
+    }
 }

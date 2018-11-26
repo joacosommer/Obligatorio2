@@ -5,6 +5,15 @@
  */
 package InterfazUI;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.*;
+import javax.swing.JOptionPane;
+import sun.audio.*;
+import sonidos2.*;
+
+
 /**
  *
  * @author Joaquin
@@ -12,10 +21,23 @@ package InterfazUI;
 public class Error extends javax.swing.JFrame {
 
     /**
-     * Creates new form Error
+     * Creates new form Error 
      */
+    
+    
     public Error() {
         initComponents();
+        
+        /*InputStream soundName;
+        try {
+            File file = new File("sonidos2/prueba.wav");
+            soundName = new FileInputStream(file);
+            AudioStream audioStream = new AudioStream(soundName);
+            AudioPlayer.player.start(audioStream);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }*/
+        
     }
 
     /**
@@ -74,10 +96,11 @@ public class Error extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+        
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

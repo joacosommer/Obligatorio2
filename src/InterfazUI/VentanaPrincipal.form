@@ -42,8 +42,11 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemReplicarPartida">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Replicar Partida"/>
+                <Property name="text" type="java.lang.String" value="Lista Partidas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemReplicarPartidaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
