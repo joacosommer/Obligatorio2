@@ -57,7 +57,7 @@ public class VentanaRegistroJugador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registrar Jugador");
-        setPreferredSize(new java.awt.Dimension(400, 220));
+        setPreferredSize(new java.awt.Dimension(400, 240));
 
         jLabel3.setText("Edad:");
 

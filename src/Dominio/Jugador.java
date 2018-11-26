@@ -69,8 +69,8 @@ public class Jugador implements Comparable<Jugador>, Serializable  {
 
     @Override
     public String toString() {
-        return "Jugador{" + "Nombre= " + nombre + ", Alias= " + alias + ","
-                + " Edad= " + edad + '}';
+        return "Nombre= " + nombre + " Alias= " + alias 
+                + " Edad= " + edad + " Victorias= " + cantidadGanadas;
     }
 
     @Override
