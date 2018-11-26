@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author Marce
  */
-public class VentanaJugarPartida extends javax.swing.JFrame {
+public class VentanaJugarPartida extends javax.swing.JFrame implements Observer{
 
     private Sistema sistema;
     Validaciones1 validaciones = new Validaciones1();
@@ -25,7 +25,8 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
 
         initComponents();
         setSistema(unSistema);
-
+        sistema.addObserver(this);
+        
         String[] array = new String[sistema.getListaJugadores().size()];
         for (int i = 0; i < array.length; i++) {
             array[i] = sistema.getListaJugadores().get(i).getAlias();
@@ -257,4 +258,9 @@ public class VentanaJugarPartida extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public void update(Observable o, Object arg) {
+        Sistema s = (Sistema) o;
+        this.sistema = s;
+    }
 }
