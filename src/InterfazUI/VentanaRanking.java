@@ -24,15 +24,10 @@ public class VentanaRanking extends javax.swing.JFrame implements Observer {
         initComponents();
         setSistema(unSistema);
         sistema.addObserver(this);
+        
         Collections.sort(sistema.getListaJugadores(),
                 Collections.reverseOrder());
-        
         jList1.setListData(sistema.getListaJugadores().toArray());
-        /*DefaultListModel<String> model = new DefaultListModel<>();
-        for (int i = 0; i < sistema.getListaJugadores().size(); i++) {
-            model.addElement(i + 1 + " - " + sistema.getListaJugadores().get(i).getAlias() + " - " + sistema.getListaJugadores().get(i).getCantidadGanadas());
-        }
-        jList1.setModel(model);*/
     }
 
     public Sistema getSistema() {

@@ -65,12 +65,12 @@ public class Partida implements Comparable<Partida>{
     }
 
     public Partida(Jugador jugadorAzul, Jugador jugadorRojo,
-            int tipoPartida, ArrayList<Jugada> listaJugadas, int movi) {
+            int tipoPartida, ArrayList<Jugada> listaJugadas,Date fecha, int movi) {
         this.jugadorAzul = jugadorAzul;
         this.jugadorRojo = jugadorRojo;
         this.tipoPartida = tipoPartida;
         this.listaJugadas = listaJugadas;
-        this.fecha = new Date();
+        this.fecha = fecha;
         this.setMovi(movi);
     }
 

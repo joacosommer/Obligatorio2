@@ -36,6 +36,7 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
         initComponents();
         this.setSistema(unSistema);
         this.setPartida(p);
+        
         panelJuego.setLayout(new GridLayout(8, 9));
         botones = new JButton[9][10];
         for (int i = 1; i <= 8; i++) {
@@ -57,6 +58,8 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
                 }
             }
         }
+        jLabel1.setText(p.getJugadorAzul().getAlias());
+        jLabel2.setText(p.getJugadorRojo().getAlias());
 
     }
 
@@ -97,10 +100,12 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
         SiguienteJugada = new javax.swing.JButton();
         ReplicarPartida = new javax.swing.JButton();
         Cerrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Repeticion de partida");
-        setPreferredSize(new java.awt.Dimension(500, 550));
+        setPreferredSize(new java.awt.Dimension(650, 550));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -135,6 +140,18 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
         getContentPane().add(Cerrar);
         Cerrar.setBounds(390, 480, 63, 23);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel1.setText("jLabel1");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(500, 20, 130, 15);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel2.setText("jLabel2");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(500, 400, 130, 15);
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -163,8 +180,18 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
     }//GEN-LAST:event_SiguienteJugadaActionPerformed
 
     private void ReplicarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReplicarPartidaActionPerformed
-        Tablero2 ventanaTablero = new Tablero2(this.getPartida(), this.getTablero(), this.getSistema());
+        Partida nueva = new Partida();
+        nueva.setJugadorAzul(partida.getJugadorAzul());
+        nueva.setJugadorRojo(partida.getJugadorRojo());
+        nueva.setMovi(partida.getMovi());
+        nueva.setTipoPartida(partida.getTipoPartida());
+        for (int i=0; i<cantidadJugadas; i++){
+            nueva.setListaJugadas(partida.getListaJugadas().get(i));
+        }
+        nueva.setFecha();
+        Tablero2 ventanaTablero = new Tablero2(nueva, this.getTablero(), this.getSistema());
         ventanaTablero.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_ReplicarPartidaActionPerformed
 
 
@@ -172,6 +199,8 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
     private javax.swing.JButton Cerrar;
     private javax.swing.JButton ReplicarPartida;
     private javax.swing.JButton SiguienteJugada;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel panelJuego;
     // End of variables declaration//GEN-END:variables
 
@@ -204,7 +233,7 @@ public class VentanaReplicarPartida extends javax.swing.JFrame {
             TerminoPartida ventana = new TerminoPartida(partida.getJugadorAzul());
             ventana.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Empate",
+            JOptionPane.showMessageDialog(this, "Empate o Abandono",
                     "Empate", JOptionPane.OK_OPTION);
         }
         this.dispose();

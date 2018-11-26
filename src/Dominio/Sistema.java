@@ -227,6 +227,23 @@ public class Sistema extends Observable implements Serializable {
         return piezasMovibles;
     }
 
+    public boolean seguirJugando(Tablero tablero) {
+        boolean ok = false;
+        ArrayList<Pieza> aux = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (tablero.getTablero()[i][j].getValor() != 0) {
+                    aux.addAll(piezasMovibles(tablero, tablero.getTablero()[i][j]));
+                }
+            }
+        }
+        if (aux.size() > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //Devuelvo las piezas que si o si puedo mover despues de validar 
     //cada movimiento posible
     //No tiene repetidos y esta ordenado por valor de la pieza
@@ -459,7 +476,5 @@ public class Sistema extends Observable implements Serializable {
         }
         return esValido;
     }
-    
-    
-    
+
 }

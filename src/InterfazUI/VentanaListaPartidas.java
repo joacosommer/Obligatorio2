@@ -6,10 +6,13 @@
 package InterfazUI;
 
 import Dominio.*;
+import java.io.InputStream;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 /**
  *
@@ -143,6 +146,7 @@ public class VentanaListaPartidas extends javax.swing.JFrame implements Observer
         } else {
             JOptionPane.showMessageDialog(this, "Error al ingresar los datos",
                         "Error", JOptionPane.OK_OPTION);
+            sonido();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -162,4 +166,14 @@ public class VentanaListaPartidas extends javax.swing.JFrame implements Observer
         
     }
 
+    public void sonido() {
+        InputStream soundName;
+        try {
+            soundName = getClass().getResourceAsStream("/sonidos2/prueba.wav");
+            AudioStream audioStream = new AudioStream(soundName);
+            AudioPlayer.player.start(audioStream);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 }

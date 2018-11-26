@@ -6,11 +6,14 @@
 package InterfazUI;
 
 import Dominio.*;
+import java.io.InputStream;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 /**
  *
@@ -235,6 +238,7 @@ public class VentanaJugarPartida extends javax.swing.JFrame implements Observer{
             ventanaTablero.setVisible(true);
             this.dispose();
         } else {
+            sonido();
             JOptionPane.showMessageDialog(this, "Error al ingresar los datos",
                         "Error", JOptionPane.OK_OPTION);
         }
@@ -262,5 +266,16 @@ public class VentanaJugarPartida extends javax.swing.JFrame implements Observer{
     public void update(Observable o, Object arg) {
         Sistema s = (Sistema) o;
         this.sistema = s;
+    }
+    
+    public void sonido() {
+        InputStream soundName;
+        try {
+            soundName = getClass().getResourceAsStream("/sonidos2/prueba.wav");
+            AudioStream audioStream = new AudioStream(soundName);
+            AudioPlayer.player.start(audioStream);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 }

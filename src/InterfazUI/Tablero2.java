@@ -8,10 +8,13 @@ package InterfazUI;
 import Dominio.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.io.InputStream;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.*;
 import javax.swing.JList;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 /**
  *
@@ -25,7 +28,7 @@ public class Tablero2 extends javax.swing.JFrame {
     private Partida unaP;
     //private int movi;
     Validaciones1 validaciones = new Validaciones1();
-    private ArrayList<int[]> mov = new ArrayList<int[]>();
+    private ArrayList<int[]> coordenadasGuardadas = new ArrayList<int[]>();
     private Jugador jugadorTurno;
     private ArrayList<Pieza> jugadasPosibles;
     private int contador = 0;
@@ -69,20 +72,14 @@ public class Tablero2 extends javax.swing.JFrame {
             turno = unaP.getJugadorRojo();
         } else {
             Pieza pi = unaP.getListaJugadas().get(unaP.getListaJugadas().size() - 1).getPieza();
-            JOptionPane.showMessageDialog(this, pi.getValor(),
-                    "Error", JOptionPane.OK_OPTION);
             piezas = sistema.piezasMovibles(tablero, pi);
-            JOptionPane.showMessageDialog(this, Integer.toString(piezas.size()),
-                    "Error", JOptionPane.OK_OPTION);
-            if (sistema.piezasMovibles(tablero, unaP.getListaJugadas().get(unaP.getListaJugadas().size() - 1).getPieza()).size() != 0) {
+            turno = unaP.getListaJugadas().get(unaP.getListaJugadas().size() - 1).getJugador();
+            if (sistema.piezasMovibles(tablero, pi).size() != 0) {
                 turno = unaP.getListaJugadas().get(unaP.getListaJugadas().size() - 1).getJugador();
-                JOptionPane.showMessageDialog(this, "2",
-                        "Error", JOptionPane.OK_OPTION);
             } else {
                 if (turno == unaP.getJugadorRojo()) {
                     turno = unaP.getJugadorAzul();
                     piezas = sistema.primerPiezasAzul(tablero, jugadorTurno);
-
                 } else {
                     turno = unaP.getJugadorRojo();
                     piezas = sistema.primerPiezasRojos(tablero, jugadorTurno);
@@ -375,25 +372,27 @@ public class Tablero2 extends javax.swing.JFrame {
         pos[1] = columna - 1;
 
         if (tablero.getTablero()[pos[0]][pos[1]].getValor() != 0 && jugadasPosibles.contains(tablero.getTablero()[pos[0]][pos[1]])) {
-            mov.add(new int[]{pos[0], pos[1]});
+            coordenadasGuardadas.add(new int[]{pos[0], pos[1]});
         }
 
-        if (mov.size() > 0) {
+        if (coordenadasGuardadas.size() > 0) {
 
             Pieza p = new Pieza();
 
-            String movida = jugada(mov.get(mov.size() - 1), pos, jugadorTurno);
+            String movida = jugada(coordenadasGuardadas.get(coordenadasGuardadas.size() - 1), pos, jugadorTurno);
             if (movida == "NO" && tablero.getTablero()[pos[0]][pos[1]].getValor() == 0) {
+                sonido();
                 JOptionPane.showMessageDialog(this, "Movimiento no valido",
                         "Error", JOptionPane.OK_OPTION);
+                
             } else {
-                if (tablero.getTablero()[pos[0]][pos[1]].getValor() == 0 && mov.size() > 0) {
-                    p = tablero.getTablero()[mov.get(mov.size() - 1)[0]][mov.get(mov.size() - 1)[1]];
+                if (tablero.getTablero()[pos[0]][pos[1]].getValor() == 0 && coordenadasGuardadas.size() > 0) {
+                    p = tablero.getTablero()[coordenadasGuardadas.get(coordenadasGuardadas.size() - 1)[0]][coordenadasGuardadas.get(coordenadasGuardadas.size() - 1)[1]];
                     tablero.getTablero()[pos[0]][pos[1]] = p;
                     Pieza q = new Pieza();
-                    tablero.getTablero()[mov.get(mov.size() - 1)[0]][mov.get(mov.size() - 1)[1]] = q;
+                    tablero.getTablero()[coordenadasGuardadas.get(coordenadasGuardadas.size() - 1)[0]][coordenadasGuardadas.get(coordenadasGuardadas.size() - 1)[1]] = q;
                     Jugada j = new Jugada();
-                    char dire = jugada(mov.get(mov.size() - 1), pos, jugadorTurno).charAt(1);
+                    char dire = jugada(coordenadasGuardadas.get(coordenadasGuardadas.size() - 1), pos, jugadorTurno).charAt(1);
                     j.setDireccion(dire);
                     j.setJugador(jugadorTurno);
                     if (jugadorTurno == unaP.getJugadorRojo()) {
@@ -404,7 +403,7 @@ public class Tablero2 extends javax.swing.JFrame {
                     }
                     unaP.setListaJugadas(j);
 
-                    mov.clear();
+                    coordenadasGuardadas.clear();
                     contador++;
                     jugadasPosibles = sistema.piezasMovibles(tablero, p);
                 }
@@ -412,8 +411,7 @@ public class Tablero2 extends javax.swing.JFrame {
             }
         }
 
-        if (sistema.terminaPartida(unaP, unaP.getMovi(), tablero.getTablero()) || sistema.todasOpuesto(tablero.getTablero())) {
-
+        if (sistema.terminaPartida(unaP, unaP.getMovi(), tablero.getTablero()) || sistema.todasOpuesto(tablero.getTablero()) || !sistema.seguirJugando(tablero)) {
             if (ganador(unaP, tablero) == "ganoRojo") {
                 TerminoPartida ventana = new TerminoPartida(unaP.getJugadorRojo());
                 ventana.setVisible(true);
@@ -421,7 +419,7 @@ public class Tablero2 extends javax.swing.JFrame {
                 TerminoPartida ventana = new TerminoPartida(unaP.getJugadorAzul());
                 ventana.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Empate o alguien abandono",
+                JOptionPane.showMessageDialog(this, "Empate",
                         "Empate", JOptionPane.OK_OPTION);
             }
             sistema.agregarPartida(unaP);
@@ -553,4 +551,14 @@ public class Tablero2 extends javax.swing.JFrame {
         return devo;
     }
 
+    public void sonido() {
+        InputStream soundName;
+        try {
+            soundName = getClass().getResourceAsStream("/sonidos2/prueba.wav");
+            AudioStream audioStream = new AudioStream(soundName);
+            AudioPlayer.player.start(audioStream);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 }
