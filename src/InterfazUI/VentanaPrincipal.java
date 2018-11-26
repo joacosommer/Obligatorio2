@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 import Serializacion.*;
+import com.google.gson.*;
 
 /**
  *
@@ -18,9 +19,9 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         //sistema.jugad();
 
         initComponents();
-
-        setSistema(unSistema);
         
+        setSistema(unSistema);
+        Gson gson = new Gson();
         sistema.addObserver(this);
 
         actualizarVentana();
@@ -55,6 +56,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenuItemReplicarPartida = new javax.swing.JMenuItem();
         jMenuSalir = new javax.swing.JMenu();
         salirJuego = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +116,14 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         });
         jMenuSalir.add(salirJuego);
 
+        jMenuItem1.setText("Mostrar Json");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuSalir.add(jMenuItem1);
+
         jMenuBar1.add(jMenuSalir);
 
         setJMenuBar(jMenuBar1);
@@ -161,6 +171,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         guardar();
         System.exit(0);
     }//GEN-LAST:event_salirJuegoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     public void guardar() {
         Persistencia per = new Persistencia();
         per.guardarSistema(sistema);
@@ -171,6 +185,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemJugarPartida;
     private javax.swing.JMenuItem jMenuItemRanking;
     private javax.swing.JMenuItem jMenuItemRegistroJugador;
