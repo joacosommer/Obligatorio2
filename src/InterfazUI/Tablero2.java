@@ -36,7 +36,7 @@ public class Tablero2 extends javax.swing.JFrame {
     public Tablero2(Partida unaP, Tablero tablero, Sistema sistema) {
         initComponents();
         this.setSistema(sistema);
-       
+
         this.setTablero(tablero);
         this.setUnaP(unaP);
         unaP.setFecha();
@@ -384,7 +384,7 @@ public class Tablero2 extends javax.swing.JFrame {
                 sonido();
                 JOptionPane.showMessageDialog(this, "Movimiento no valido",
                         "Error", JOptionPane.OK_OPTION);
-                
+
             } else {
                 if (tablero.getTablero()[pos[0]][pos[1]].getValor() == 0 && coordenadasGuardadas.size() > 0) {
                     p = tablero.getTablero()[coordenadasGuardadas.get(coordenadasGuardadas.size() - 1)[0]][coordenadasGuardadas.get(coordenadasGuardadas.size() - 1)[1]];
@@ -411,7 +411,10 @@ public class Tablero2 extends javax.swing.JFrame {
             }
         }
 
-        if (sistema.terminaPartida(unaP, unaP.getMovi(), tablero.getTablero()) || sistema.todasOpuesto(tablero.getTablero()) || !sistema.seguirJugando(tablero)) {
+        if (sistema.terminaPartida(unaP, unaP.getMovi(), tablero.getTablero())
+                || sistema.todasOpuesto(tablero.getTablero())
+                || (sistema.primerPiezasAzul(tablero, unaP.getJugadorAzul()).size() == 0 
+                && sistema.primerPiezasAzul(tablero, unaP.getJugadorRojo()).size() == 0)) {
             if (ganador(unaP, tablero) == "ganoRojo") {
                 TerminoPartida ventana = new TerminoPartida(unaP.getJugadorRojo());
                 ventana.setVisible(true);

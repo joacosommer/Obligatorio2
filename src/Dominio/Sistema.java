@@ -227,22 +227,7 @@ public class Sistema extends Observable implements Serializable {
         return piezasMovibles;
     }
 
-    public boolean seguirJugando(Tablero tablero) {
-        boolean ok = false;
-        ArrayList<Pieza> aux = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (tablero.getTablero()[i][j].getValor() != 0) {
-                    aux.addAll(piezasMovibles(tablero, tablero.getTablero()[i][j]));
-                }
-            }
-        }
-        if (aux.size() > 0){
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
 
     //Devuelvo las piezas que si o si puedo mover despues de validar 
     //cada movimiento posible
@@ -349,7 +334,8 @@ public class Sistema extends Observable implements Serializable {
         return posiblesJugadas;
     }
 
-    public ArrayList<Pieza> primerPiezasRojos(Tablero tablero, Jugador jugador) {
+    public ArrayList<Pieza> primerPiezasRojos(Tablero tablero, 
+            Jugador jugador) {
         ArrayList<Pieza> aux = new ArrayList<Pieza>();
         ArrayList<Jugada> jugadasPosibles = new ArrayList<Jugada>();
         jugadasPosibles = posiblesJugadasRojo(tablero, piezasRojo(), jugador);
@@ -368,7 +354,8 @@ public class Sistema extends Observable implements Serializable {
         return aux;
     }
 
-    public ArrayList<Pieza> primerPiezasAzul(Tablero tablero, Jugador jugador) {
+    public ArrayList<Pieza> primerPiezasAzul(Tablero tablero, 
+            Jugador jugador) {
         ArrayList<Pieza> aux = new ArrayList<Pieza>();
         ArrayList<Jugada> jugadasPosibles = new ArrayList<Jugada>();
         jugadasPosibles = posiblesJugadasAzul(tablero, piezasAzul(), jugador);
@@ -441,7 +428,8 @@ public class Sistema extends Observable implements Serializable {
                     String alias = tokens[1];
                     int edad = Integer.parseInt(tokens[2]);
                     int cantidadGanadas = Integer.parseInt(tokens[3]);
-                    Jugador jugador = new Jugador(nombre, alias, edad, cantidadGanadas);
+                    Jugador jugador = new Jugador(nombre, alias, 
+                            edad, cantidadGanadas);
                     if (listaJugadores.contains(jugador)) {
                         int num = listaJugadores.indexOf(jugador);
                         listaJugadores.get(num).setNombre(nombre);
@@ -465,7 +453,9 @@ public class Sistema extends Observable implements Serializable {
         char dos = ' ';
         boolean esValido = true;
         String[] tokens = linea.split("#");
-        if (tokens.length != 4 || tokens[0].isEmpty() || tokens[1].isEmpty() || tokens[2].isEmpty() || tokens[3].isEmpty()) {
+        if (tokens.length != 4 || tokens[0].isEmpty() 
+                || tokens[1].isEmpty() || tokens[2].isEmpty() 
+                || tokens[3].isEmpty()) {
             esValido = false;
         } else {
             uno = tokens[2].charAt(0);
