@@ -4,6 +4,7 @@ import Dominio.*;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
+import Serializacion.*;
 
 /**
  *
@@ -19,11 +20,12 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         initComponents();
 
         setSistema(unSistema);
-
+        
         sistema.addObserver(this);
 
         actualizarVentana();
         this.setEnabled(true);
+        
     }
 
     public Sistema getSistema() {
@@ -52,6 +54,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenuItemJugarPartida = new javax.swing.JMenuItem();
         jMenuItemReplicarPartida = new javax.swing.JMenuItem();
         jMenuSalir = new javax.swing.JMenu();
+        salirJuego = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,6 +105,15 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jMenuBar1.add(jMenuPartida);
 
         jMenuSalir.setText("Salir");
+
+        salirJuego.setText("Salir del Juego");
+        salirJuego.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirJuegoActionPerformed(evt);
+            }
+        });
+        jMenuSalir.add(salirJuego);
+
         jMenuBar1.add(jMenuSalir);
 
         setJMenuBar(jMenuBar1);
@@ -145,6 +157,14 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         
     }//GEN-LAST:event_jMenuItemRankingActionPerformed
 
+    private void salirJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirJuegoActionPerformed
+        guardar();
+        System.exit(0);
+    }//GEN-LAST:event_salirJuegoActionPerformed
+    public void guardar() {
+        Persistencia per = new Persistencia();
+        per.guardarSistema(sistema);
+    }
     /**
      * @param args the command line arguments
      */
@@ -159,6 +179,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private javax.swing.JMenu jMenuPartida;
     private javax.swing.JMenu jMenuSalir;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuItem salirJuego;
     // End of variables declaration//GEN-END:variables
 
     
