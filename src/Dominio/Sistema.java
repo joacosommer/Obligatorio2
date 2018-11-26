@@ -7,13 +7,14 @@ import java.util.Collections;
 import java.util.*;
 import Serializacion.*;
 import java.io.*;
+//import com.google.gson.*;
 
 
 /*
 Joaquin Sommer - 184441
 Marcelo Ferreira - 175240
  */
-public class Sistema extends Observable implements Serializable{
+public class Sistema extends Observable implements Serializable {
 
     private ArrayList<Jugador> listaJugadores;
     private ArrayList<Partida> listaPartidas;
@@ -163,7 +164,7 @@ public class Sistema extends Observable implements Serializable{
 
     //Me devuelve un arraylist con los movimientos posibles despues de 
     //mover una pieza. Puede que haya repetidos
-       public ArrayList<Pieza> movimientosPosibles(Tablero tablero, Pieza pieza) {
+    public ArrayList<Pieza> movimientosPosibles(Tablero tablero, Pieza pieza) {
         ArrayList<Pieza> piezasMovibles = new ArrayList<>();
         int[] pos = tablero.posPieza(tablero.getTablero(), pieza);
         int sumaDiag1 = 0;
@@ -330,12 +331,12 @@ public class Sistema extends Observable implements Serializable{
         }
         return posiblesJugadas;
     }
-    
-    public ArrayList<Pieza> primerPiezasRojos(Tablero tablero, Jugador jugador){
+
+    public ArrayList<Pieza> primerPiezasRojos(Tablero tablero, Jugador jugador) {
         ArrayList<Pieza> aux = new ArrayList<Pieza>();
         ArrayList<Jugada> jugadasPosibles = new ArrayList<Jugada>();
         jugadasPosibles = posiblesJugadasRojo(tablero, piezasRojo(), jugador);
-        for (int i=0; i<jugadasPosibles.size();i++){
+        for (int i = 0; i < jugadasPosibles.size(); i++) {
             aux.add(jugadasPosibles.get(i).getPieza());
         }
         for (int i = 0; i < aux.size(); i++) {
@@ -349,12 +350,12 @@ public class Sistema extends Observable implements Serializable{
         Collections.sort(aux);
         return aux;
     }
-    
-    public ArrayList<Pieza> primerPiezasAzul(Tablero tablero, Jugador jugador){
+
+    public ArrayList<Pieza> primerPiezasAzul(Tablero tablero, Jugador jugador) {
         ArrayList<Pieza> aux = new ArrayList<Pieza>();
         ArrayList<Jugada> jugadasPosibles = new ArrayList<Jugada>();
         jugadasPosibles = posiblesJugadasAzul(tablero, piezasAzul(), jugador);
-        for (int i=0; i<jugadasPosibles.size();i++){
+        for (int i = 0; i < jugadasPosibles.size(); i++) {
             aux.add(jugadasPosibles.get(i).getPieza());
         }
         for (int i = 0; i < aux.size(); i++) {
@@ -400,17 +401,17 @@ public class Sistema extends Observable implements Serializable{
         }
         return aux;
     }
-    
-    public Jugador devolverJugador(Object alias){
+
+    public Jugador devolverJugador(Object alias) {
         Jugador j = new Jugador();
-        for (int i=0; i<this.getListaJugadores().size();i++){
-            if (alias.equals(this.getListaJugadores().get(i).getAlias())){
+        for (int i = 0; i < this.getListaJugadores().size(); i++) {
+            if (alias.equals(this.getListaJugadores().get(i).getAlias())) {
                 j = this.getListaJugadores().get(i);
             }
         }
         return j;
     }
-    
+
     public boolean importarJugadores(String pathArchivo) {
         boolean importoOk = true;
         ArchivoLectura arch = new ArchivoLectura(pathArchivo);
@@ -423,17 +424,15 @@ public class Sistema extends Observable implements Serializable{
                     String alias = tokens[1];
                     int edad = Integer.parseInt(tokens[2]);
                     int cantidadGanadas = Integer.parseInt(tokens[3]);
-                    Jugador jugador = new Jugador(nombre,alias,edad,cantidadGanadas);
-                    if(listaJugadores.contains(jugador)){
-                       int num = listaJugadores.indexOf(jugador);
-                       listaJugadores.get(num).setNombre(nombre);
-                       listaJugadores.get(num).setEdad(edad);
-                    }
-                    else {
+                    Jugador jugador = new Jugador(nombre, alias, edad, cantidadGanadas);
+                    if (listaJugadores.contains(jugador)) {
+                        int num = listaJugadores.indexOf(jugador);
+                        listaJugadores.get(num).setNombre(nombre);
+                        listaJugadores.get(num).setEdad(edad);
+                    } else {
                         listaJugadores.add(jugador);
-                    } 
-                }
-                else {
+                    }
+                } else {
                     importoOk = false;
                 }
             } catch (Exception err) {
@@ -460,4 +459,7 @@ public class Sistema extends Observable implements Serializable{
         }
         return esValido;
     }
+    
+    
+    
 }
